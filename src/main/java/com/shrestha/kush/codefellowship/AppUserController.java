@@ -7,8 +7,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
@@ -54,5 +57,10 @@ public class AppUserController {
         return new RedirectView("/");
     }
 
-
+    @GetMapping("/user/{id}")
+    public String applicationUser(@PathVariable Long id, Model m) {
+        AppUser userId = appUserRepository.findById(id).get();
+        m.addAttribute("userinfo", userId);
+        return "individualprofile";
+    }
 }

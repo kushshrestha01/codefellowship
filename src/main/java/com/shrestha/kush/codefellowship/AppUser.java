@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.annotation.Generated;
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class AppUser implements UserDetails {
@@ -15,6 +16,9 @@ public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
+
+    @OneToMany(mappedBy = "user")
+    List<Post> posts;
 
     String firstName;
     String lastName;
@@ -106,5 +110,13 @@ public class AppUser implements UserDetails {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }
