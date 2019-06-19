@@ -3,5 +3,8 @@ h1 {
 }
 
 body {
-    background-color: #FF0000;
+    background-color: #87CEEB;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
 }
