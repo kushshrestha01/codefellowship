@@ -1,5 +1,6 @@
 package com.shrestha.kush.codefellowship;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +13,8 @@ public class CodeFellowshipController {
 
     @GetMapping("/")
     public String getCodeFellows(Principal p, Model m){
-        System.out.println(p.getName());
-        m.addAttribute("principal", p);
+        AppUser currentUser = (AppUser) ((UsernamePasswordAuthenticationToken) p).getPrincipal();
+        m.addAttribute("principal", currentUser);
         return "codefellows";
     }
 
