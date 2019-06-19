@@ -60,7 +60,11 @@ public class AppUserController {
     @GetMapping("/user/{id}")
     public String applicationUser(@PathVariable Long id, Model m) {
         AppUser userId = appUserRepository.findById(id).get();
-        m.addAttribute("userinfo", userId);
-        return "individualprofile";
+        if(userId != null) {
+            m.addAttribute("userinfo", userId);
+            return "individualprofile";
+        } else {
+            return "nousererror";
+        }
     }
 }

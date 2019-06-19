@@ -6,8 +6,20 @@
 </head>
 <body>
 
-<h1 th:if="${userinfo != null}" > Here is the <span th:text="${userinfo.username}"></span></h1>
+<h1> Here is the <span th:text="${userinfo.username}"></span></h1>
+<p><span th:text="${userinfo.firstName}"></span></p>
+<p><span th:text="${userinfo.lastName}"></span></p>
+<p><span th:text="${userinfo.bio}"></span></p>
+<img th:src="@{/images/profile_image.jpg}" alt="image" width="100px"><br>
 
+<h4>Posts</h4>
+<ul>
+    <li th:each="post : ${userinfo.posts}">
+        <!--            <a th:href="'/posts/' + ${post.id}">-->
+        <span th:text="${post.body}"></span>, a <span th:text="${post.createAt}"></span>
+        <!--            </a>-->
+    </li>
+</ul>
 
 </body>
 </html>
