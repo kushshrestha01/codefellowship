@@ -23,8 +23,8 @@ public class AppUserController {
     PasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/users")
-    public RedirectView createUser(String username, String password) {
-        AppUser newUser = new AppUser(username, bCryptPasswordEncoder.encode(password));
+    public RedirectView createUser(String username, String password, String firstName, String lastName, String birthday, String bio) {
+        AppUser newUser = new AppUser(username, bCryptPasswordEncoder.encode(password),firstName, lastName, birthday, bio);
         appUserRepository.save(newUser);
         // maybe autologin?
         Authentication authentication = new UsernamePasswordAuthenticationToken(newUser, null, new ArrayList<>());
@@ -36,4 +36,21 @@ public class AppUserController {
     public String getLoginPage(){
         return "login";
     }
+
+    @GetMapping("/signup")
+    public String getsignup(){
+        return "signup";
+    }
+
+    @PostMapping("/signup")
+    public RedirectView createNewUser(String username, String password){
+        AppUser newUser = new AppUser(username, bCryptPasswordEncoder.encode(password));
+        appUserRepository.save(newUser);
+        // maybe autologin?
+        Authentication authentication = new UsernamePasswordAuthenticationToken(newUser, null, new ArrayList<>());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return new RedirectView("/");
+    }
+
+
 }
