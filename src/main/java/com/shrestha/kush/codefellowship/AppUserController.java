@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.security.Principal;
 import java.util.ArrayList;
 
 @Controller
@@ -58,8 +59,9 @@ public class AppUserController {
     }
 
     @GetMapping("/user/{id}")
-    public String applicationUser(@PathVariable Long id, Model m) {
+    public String applicationUser(@PathVariable Long id, Model m, Principal p) {
         AppUser userId = appUserRepository.findById(id).get();
+        m.addAttribute("principal", p.getName());
         if(userId != null) {
             m.addAttribute("userinfo", userId);
             return "individualprofile";
