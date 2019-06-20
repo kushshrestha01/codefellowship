@@ -8,7 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.annotation.Generated;
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class AppUser implements UserDetails {
@@ -20,14 +22,28 @@ public class AppUser implements UserDetails {
     @OneToMany(mappedBy = "user")
     List<Post> posts;
 
+    @ManyToMany(mappedBy = "following")
+    List<AppUser> followerBy;
+
     String firstName;
     String lastName;
     String birthday;
     String bio;
 
+
+
     @Column(unique = true)
     String username;
     String password;
+
+
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "Friends",
+            joinColumns = { @JoinColumn(name = "following") },
+            inverseJoinColumns = { @JoinColumn(name = "followedBy") }
+    )
+    Set<AppUser> following = new HashSet<>();
 
     public AppUser(){}
 

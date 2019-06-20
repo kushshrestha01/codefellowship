@@ -16,6 +16,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.SplittableRandom;
 
 @Controller
 public class AppUserController {
@@ -62,11 +64,24 @@ public class AppUserController {
     public String applicationUser(@PathVariable Long id, Model m, Principal p) {
         AppUser userId = appUserRepository.findById(id).get();
         m.addAttribute("principal", p.getName());
-        if(userId != null) {
+        if(userId == null) {
+            return "nousererror";
+        } else {
             m.addAttribute("userinfo", userId);
             return "individualprofile";
-        } else {
-            return "nousererror";
         }
     }
+
+    @GetMapping("/index")
+    public String getAllUser(Model m, Principal p){
+        List<AppUser> all = (List)appUserRepository.findAll();
+        all.remove(appUserRepository.findByUsername(p.getName()));
+        m.addAttribute("allUsers", all);
+        return "index";
+    }
+
+//    @GetMapping("/follow")
+//    public String followUser(){
+//        return ""
+//    }
 }
