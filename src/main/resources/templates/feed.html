@@ -6,15 +6,18 @@
     <link href="/style.css" rel="stylesheet" />
 </head>
 <body>
-    <h1>News Feed</h1>
-    <ul>
-        <li th:each="post : ${posts}">
-            <!--            <a th:href="'/posts/' + ${post.id}">-->
-            <span th:text="${post.id}"></span>
-            <span th:text="${post.body}"></span>, a <span th:text="${post.createAt}"></span>
+    <h1>News Feed of <span th:text="${current.firstName}"></span></h1>
 
-            <!--            </a>-->
+    <ul>
+        <li th:each="userfollow: ${current.following}">
+            Post from <span th:text="${userfollow.firstName}"></span>
+            <ul>
+                <li th:each="post:${userfollow.getPosts()}">
+                    <span th:text="${post.body}"></span> at <span th:text="${post.createAt}"></span>
+                </li>
+            </ul>
         </li>
     </ul>
 </body>
 </html>
+

@@ -99,10 +99,8 @@ public class AppUserController {
 
     @GetMapping("/feed")
     public String newsFeed(Model m, Principal p){
-        List<Post> allpost = (List)postRepository.findAll();
-        List<AppUser> all = (List)appUserRepository.findAll();
-        m.addAttribute("posts", allpost);
-        m.addAttribute("users", all);
+        AppUser current = appUserRepository.findByUsername(p.getName());
+        m.addAttribute("current", current);
         return "feed";
     }
 }
