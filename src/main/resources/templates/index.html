@@ -2,17 +2,19 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <link href="/style.css" rel="stylesheet" />
     <title>Index Page</title>
 </head>
 <body>
     <h1>All the Users</h1>
-    <ul>
-        <li th:each="user : ${allUsers.users}">
-            <!--            <a th:href="'/posts/' + ${post.id}">-->
+        <ul>
+            <li th:each="user : ${allUsers}">
+                <form action="/follow" method="POST">
                 <span th:text="${user.username}"></span>
-            <!--            </a>-->
-        </li>
-    </ul>
-
+                <input type="hidden" name="id" th:value="${user.id}"/>
+                <button type="submit">Follow</button>
+                </form></br>
+            </li>
+        </ul>
 </body>
 </html>

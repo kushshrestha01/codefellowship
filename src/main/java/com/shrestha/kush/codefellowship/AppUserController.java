@@ -28,6 +28,9 @@ public class AppUserController {
     @Autowired
     PasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    PostRepository postRepository;
+
     @PostMapping("/users")
     public RedirectView createUser(String username, String password, String firstName, String lastName, String birthday, String bio) {
         AppUser newUser = new AppUser(username, bCryptPasswordEncoder.encode(password),firstName, lastName, birthday, bio);
@@ -76,12 +79,30 @@ public class AppUserController {
     public String getAllUser(Model m, Principal p){
         List<AppUser> all = (List)appUserRepository.findAll();
         all.remove(appUserRepository.findByUsername(p.getName()));
+        all.removeAll(appUserRepository.findByUsername(p.getName()).following);
         m.addAttribute("allUsers", all);
         return "index";
     }
 
-//    @GetMapping("/follow")
-//    public String followUser(){
-//        return ""
-//    }
+    @PostMapping("/follow")
+    public RedirectView followUser(Long id, Principal p){
+        AppUser followedUser = appUserRepository.findById(id).get();
+        AppUser current = appUserRepository.findByUsername(p.getName());
+
+        current.setFollowing(followedUser);
+        followedUser.setFollowerBy(current);
+
+        appUserRepository.save(current);
+        appUserRepository.save(followedUser);
+
+        return new RedirectView("/");    }
+
+    @GetMapping("/feed")
+    public String newsFeed(Model m, Principal p){
+        List<Post> allpost = (List)postRepository.findAll();
+        List<AppUser> all = (List)appUserRepository.findAll();
+        m.addAttribute("posts", allpost);
+        m.addAttribute("users", all);
+        return "feed";
+    }
 }

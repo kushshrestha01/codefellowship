@@ -135,4 +135,24 @@ public class AppUser implements UserDetails {
     public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public List<AppUser> getFollowerBy() {
+        return followerBy;
+    }
+
+    public void setFollowerBy(AppUser followerBy) {
+        this.followerBy.add(followerBy);
+    }
+
+    public Set<AppUser> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(AppUser following) {
+        this.following.add(following);
+    }
 }
