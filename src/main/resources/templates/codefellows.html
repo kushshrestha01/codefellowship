@@ -20,7 +20,7 @@
     <ul>
         <li th:each="post : ${principal.posts}">
 <!--            <a th:href="'/posts/' + ${post.id}">-->
-                <span th:text="${post.body}"></span>, a <span th:text="${post.createAt}"></span>
+                <span th:text="${post.body}"></span>, at <span th:text="${post.createAt}"></span>
 <!--            </a>-->
         </li>
     </ul>
